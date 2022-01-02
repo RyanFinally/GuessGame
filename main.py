@@ -34,6 +34,7 @@ intro   :
 
 Each of this key concept will be made as class
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+from random import randint
 from sys import exit
 
 class Finish:
@@ -54,11 +55,58 @@ class Finish:
         print("\nTry again later!")
         exit()
 
+finish = Finish()
+
 class In_game:
-    def rule():
-        pass
-    def play():
-        pass
+    __chances = 5
+    def rule(self):
+        print("    \"RULE OF THE GAME\"\n  ")
+        print("-You have 5 chances to guess.")
+        print("-For every wrong guess, you ")
+        print(" will be given a hint. ")
+        print("-If you guess it right then")
+        print(" it is a win. If not, then")
+        print(" it is a lose.")
+        print("-The game will end when you")
+        print(" guess the number, or run out")
+        print(" of chances.")
+
+    def result(self, result):
+        self.result = result
+        return self.result
+
+    def play(self):
+        self.number = randint(1,10)
+        try:
+            while self.__chances !=0:
+                self.guess = int(input("Guess a number: ")) 
+                self.__chances -= 1
+                if self.guess == self.number:
+                    self.result(True)
+                elif self.guess < self.number:
+                    if self.number - self.guess >= 3:
+                        print("Well, that's too small.")
+                    else:
+                        print("So close! Bigger!")  
+                elif self.guess > self.number:
+                    if self.guess - self.number >= 3:
+                        print("Well, that's too big.")
+                    else:
+                        print("So close! Smaller!")
+                else:
+                    print("What was that? Well, we count that as a chance!")
+                print(f"You still have {self.chance} chances.")
+            self.result(False)
+            exit()
+        except KeyboardInterrupt:
+            print("\nHmm, dont just give up like that!")
+            print("Well, see you later!")
+            exit()
+        except ValueError:
+            print("1-10 only!")
+            self.play()
+
+in_game = In_game()
 
 class Start:
     def proceed():
