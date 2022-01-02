@@ -37,6 +37,45 @@ Each of this key concept will be made as class
 from random import randint
 from sys import exit
 
+class Intro:
+    def __init__(self):
+        print("Welcome to Guessing Game!\n")
+        self.username()
+
+    def username(self):
+        try:
+            print("Please tell us your name!")
+            self.username = input('> ')
+            print("\n")
+            #return self.username
+        except KeyboardInterrupt:
+            print("\nBye")
+            exit()
+        except Exception as e:
+            print(e)
+
+class Start(Intro):
+    def proceed(self):
+        try:
+            print(f"Are you ready, {self.username}?")
+            self.user_input = input("[Y/N]> ")
+            if self.user_input == 'Y' or self.user_input == 'y':
+                print("\nNice! Be Ready!\n")
+                return True
+            elif self.user_input =='N' or self.user_input == 'n':
+                print("Why are you even here?")
+                exit()
+            else:
+                print("\nWhat was that?")
+                raise ValueError
+        except KeyboardInterrupt:
+            print("\nLater!")
+            exit()
+        except ValueError:
+            print("\nPlease learn to type!")
+            self.proceed()
+            
+
 class Finish:
     def victory_message(self, number, guess):
         self.number = number
@@ -55,112 +94,68 @@ class Finish:
         print("\nTry again later!")
         exit()
 
-
-
-class In_game(object):
+class In_game(Finish):
     def __init__(self):
-        print("    \"RULE OF THE GAME\"\n  ")
+        print("\n\"RULE OF THE GAME\"\n")
         print("-You have 5 chances to guess.")
-        print("-For every wrong guess, you ")
-        print(" will be given a hint. ")
-        print("-If you guess it right then")
-        print(" it is a win. If not, then")
-        print(" it is a lose.")
-        print("-The game will end when you")
-        print(" guess the number, or run out")
-        print(" of chances.\n")
-
-    def play(self):
+        print("-For every wrong guess, you will be given a hint.")
+        print("-If you guess it right then it is a win. If not, ")
+        print(" then it is a lose.")
+        print("-The game will end when you guess the number, ")
+        print(" or run out of chances.\n")
+         
         self.chances = 5
         self.number = randint(1,10)
+        self.play()
+
+    def play(self):
         try:
             while self.chances !=0:
                 self.guess = int(input("Guess a number: "))
                 # print(self.number)
                 self.chances -= 1
                 if self.guess == self.number:
-                    return True
+                    self.victory_message(self.number, self.guess)
                 elif self.guess < self.number:
                     if self.number - self.guess >= 3:
-                        print("Well, that's too small.")
+                        print("\nWell, that's too small.")
                     else:
                         print("So close! Bigger!")  
                 elif self.guess > self.number:
                     if self.guess - self.number >= 3:
-                        print("Well, that's too big.")
+                        print("\nWell, that's too big.")
                     else:
                         print("So close! Smaller!")
                 else:
                     print("What was that? Well, we count that as a chance!")
-                print(f"You still have {self.chances} chances.")
-            return False
+                print(f"You still have {self.chances} chances.\n")
+            self.defeat_message(self.number, self.guess)
             exit()
         except KeyboardInterrupt:
             print("\nHmm, dont just give up like that!")
             print("Well, see you later!")
             exit()
         except ValueError:
-            print("1-10 only!")
+            print("1-10 only! Well, we count that as a chance!")
+            self.chances -= 1
+            print(f"You still have {self.chances} chances.\n")
             self.play()
 
 
-
-class Start:
-    def proceed(self, username):
-        self.username = username
-        print(f"Are you ready, {self.username}?")
-        try:
-            self.user_input = input("[Y/N] >")
-            if self.user_input == 'Y' or self.user_input == 'y':
-                print("\nNice! Be Ready!")
-                return True
-            elif self.user_input =='N' or self.user_input == 'n':
-                print("Why are you even here?")
-                exit()
-            else:
-                print("What was that?")
-                raise ValueError
-        except ValueError:
-            print("\nPlease learn to type!")
-            self.proceed()
-        except KeyboardInterrupt:
-            print("\nLater!")
-            exit()
-
-
-
-class Intro:
-    def __init__(self):
-        print("Welcome to Guessing Game!")
-
-    def username(self):
-        try:
-            print("Please tell us your name!")
-            self.username = input('>')
-            return self.username
-        except KeyboardInterrupt:
-            print("\nBye")
-            exit()
-        except Exception as e:
-            print(e)
-
-
-
 def main():
-    intro = Intro()
-    finish = Finish()
-    username = intro.username()
-    start = Start()
-    result = start.proceed(username)
-    if result == True:
-        in_game = In_game()
-        final_result = in_game.play()
-    
-    if final_result == True:
-        print("nice")
-    else:
-        print("Not nice")
-    
+    # intro = Intro()
+    try:
+        start = Start()
+        tmp = start.proceed()
+
+        if tmp == True:
+            finish = In_game()
+    except KeyboardInterrupt:
+        print("See you later!!")
+    except Exception as e:
+        print(e)
+    finally :
+        print("\n\nCreated By Ryan Finally")
 
 if __name__ == "__main__":
     main()
