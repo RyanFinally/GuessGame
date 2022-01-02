@@ -34,11 +34,25 @@ intro   :
 
 Each of this key concept will be made as class
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+from sys import exit
+
 class Finish:
-    def victory_message():
-        pass
-    def defeat_message():
-        pass
+    def victory_message(self, number, guess):
+        self.number = number
+        self.guess = guess
+        print("That was awesome!!!\n")
+        print(f"Your guess was {self.guess}.")
+        print(f"The secret number was {self.number}.")
+        exit()
+
+    def defeat_message(self, number, guess):
+        self.number = number
+        self.guess = guess
+        print("Too bad. You almost got it.\n")
+        print(f"Your guess was {self.guess}.")
+        print(f"The secret number was {self.number}.")
+        print("\nTry again later!")
+        exit()
 
 class In_game:
     def rule():
